@@ -55,21 +55,16 @@ const register = async (req, res, next) => {
   });
 };
 
-
-
-
-
-
 const verifyEmail = async (req, res) => {
   const { verificationToken } = req.params;
   console.log(req.params);
   const user = await User.findOne({ verificationToken });
   if (!user) {
-    throw HttpError(401, "User not found");
+    throw HttpError(404, "User not found");
   }
   await User.findByIdAndUpdate(user._id, {
     verify: true,
-    verificationToken: "",
+    verificationToken: null,
   });
   res.json({
     message: "Verification successful",
@@ -101,12 +96,6 @@ const resendVerifyEmail = async (req, res) => {
     message: "Verification email sent",
   });
 };
-
-
-
-
-
-
 
 const login = async (req, res, next) => {
   const { email, password } = req.body;
