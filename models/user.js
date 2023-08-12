@@ -28,6 +28,14 @@ const userSchema = new Schema(
       type: String,
       // required: [true, "Set avatar for user"],
     },
+    verify: {
+      type: Boolean,
+      default: false,
+    },
+    verificationToken: {
+      type: String,
+      required: [true, "Verify token is required"],
+    },
   },
   { versionKey: false, timeseries: true }
 );
@@ -45,6 +53,13 @@ const registerSchema = Joi.object({
   }),
 });
 
+const emailSchema = Joi.object({
+  email: Joi.string().pattern(emailRegexp).required().messages({
+    "any.required": "missing required email field",
+    "string.base": "field email must be a string",
+  }),
+});
+
 const loginSchema = Joi.object({
   email: Joi.string().pattern(emailRegexp).required().messages({
     "any.required": "missing required email field",
@@ -58,6 +73,7 @@ const loginSchema = Joi.object({
 
 const schemas = {
   registerSchema,
+  emailSchema,
   loginSchema,
 };
 
