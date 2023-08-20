@@ -1,5 +1,5 @@
 const express = require("express");
-const { validateBody, authentication, upload } = require("../../middlewares");
+const { validateBody, authentication, upload, isFile } = require("../../middlewares");
 const { schemas } = require("../../models/user");
 const router = express.Router();
 const ctrl = require("../../controllers/users");
@@ -20,6 +20,7 @@ router.patch(
   "/avatars",
   authentication,
   upload.single("avatar"),
+  isFile,
   ctrl.updateUserAvatar
 );
 

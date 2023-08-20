@@ -155,11 +155,12 @@ const logout = async (req, res) => {
 };
 
 const updateUserAvatar = async (req, res) => {
-  const { _id } = req.user;
 
-  // Берем временный путь
+  // забираем айди из запроса
+  const { _id } = req.user;
+  // Берем временный путь из запроса
   const { path: tempUpload, originalname } = req.file;
-  // Добовляем Id к имени файла
+  // Добовляем Id к имени файла, чтобы создать унмкальный файл
   const fileName = `${_id}${originalname}`;
   // Создаем новый путь, где должны быть данные
   const resultUpload = path.join(avatarsDir, fileName);
